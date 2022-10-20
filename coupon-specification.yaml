@@ -1,0 +1,46 @@
+  /coupon-specification:
+    delete:
+      summary: Delete 1 or n coupon specifications
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                couponIdArray:
+                  type: array
+                  items:
+                    type: number
+      responses:
+        '200':
+          description: return success message
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+  /coupon-specification/stop:
+    put:
+      summary: Stop 1 or n coupon issuance
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                couponIdArray:
+                  type: array
+                  items:
+                    type: number
+      responses:
+        '200':
+          description: return success message
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean

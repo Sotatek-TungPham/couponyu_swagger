@@ -1,0 +1,67 @@
+  /coupon-issuance:
+    delete:
+      summary: Delete 1 or n coupon issuance
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                couponIdArray:
+                  type: array
+                  items:
+                    type: number
+      responses:
+        '200':
+          description: return success message
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+  /coupon-issuance/stop:
+    put:
+      summary: Stop 1 or n coupon issuance
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                couponIdArray:
+                  type: array
+                  items:
+                    type: number
+      responses:
+        '200':
+          description: return success message
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+  /coupon-issuance/withdraw:
+    put:
+      summary: Withdraw coupon issuance
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                couponIssuanceId:
+                  type: number
+      responses:
+        '200':
+          description: return success message
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
