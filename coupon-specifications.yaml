@@ -1,0 +1,270 @@
+openapi: 3.0.3
+info:
+  title: Swagger For couponyo 
+  version: 0.0.1
+externalDocs:
+  description: Find out more about Swagger
+  url: http://swagger.io
+
+components:
+  schemas:
+    CouponDetail:
+      type: object
+      properties:
+        couponName: 
+          type: string
+        issuance: 
+          type: object
+          properties: 
+            issuanceParent: 
+              type: string
+            issuanceChild: 
+              type: string
+        issuanceClassification: 
+          type: string
+        couponBenefits:
+          type: object
+          properties:
+            typeBenefit: 
+              type: string
+            benefitValue: 
+              type: number
+            maxDiscount: 
+              type: number
+        paymentAcount: 
+          type: number
+        limitUse: 
+          type: object
+          properties: 
+            isLimitUserActive: 
+              type: boolean
+            limitUseValue: 
+              type: number
+        maximumUse: 
+          type: object
+          properties: 
+            isMaximumUse: 
+              type: boolean
+            maximumUseValue: 
+              type: number
+        subjectsApply: 
+          type: string
+        yogiPass: 
+          type: object
+          properties: 
+            isYogipassActive: 
+              type: boolean
+            isYogipass: 
+              type: boolean
+        oderType: 
+          type: object
+          properties: 
+            isOderTypeActive: 
+              type: boolean
+            value: 
+              type: string
+        useChanel: 
+          type: object
+          properties: 
+            isUseChanelActive: 
+              type: boolean
+            app: 
+              type: boolean
+            web: 
+              type: boolean
+        useDay: 
+          type: object
+          properties: 
+            isUseDayActive: 
+              type: boolean
+            mon: 
+              type: boolean
+            tue: 
+              type: boolean
+            wed: 
+              type: boolean
+            thu: 
+              type: boolean
+            fri: 
+              type: boolean
+            sat: 
+              type: boolean
+            sun: 
+              type: boolean
+        useDate: 
+          type: array
+          items: 
+            type: string
+        useTime: 
+          type: object
+          properties:
+            startTime: 
+              type: string
+              format: date
+            endTime: 
+              type: string
+              format: date
+            startTimeValue:
+              type: string 
+            endTimeValue:
+              type: string  
+    Members:
+      type: array
+      items:
+        $ref: '#components/schemas/Member'
+    CouponIssuanceForm:
+      type: object
+      properties:
+        couponName: 
+          type: string
+        typeOfCouponIssuanece:
+          type: string
+          enum:
+            - insert
+            - downloads
+        couponIssuanceMethod:
+          type: string
+          enum:
+            - all
+            - specific
+            - csv
+        couponIssuancePeriod:
+          $ref: '#components/schemas/GeneraDate'
+        issuanceImmediately:
+          type: boolean
+          default: false
+        expriationDate:
+          $ref: '#components/schemas/GeneraDate'
+        nDaysAfterRelease:
+          type: boolean
+        availableUntil:
+          type: number
+        allowMaximumNumberOfIssuance:
+          type: number
+        maximumNumberOfIssuanceDays: 
+          type: number
+        keyword:
+          type: string
+        code:
+          type: string
+          description: an id to get an array of code
+        members:
+          $ref: '#components/schemas/Members'
+        couponDownloadMethod:
+          type: string
+          enum:
+            - download
+            - keyword
+            - random_code
+        typeOfexpriationDate:
+          type: string
+          enum:
+            - form_to
+            - n_days
+        downloadUrl: 
+          type: string
+        slug:
+          type: string
+        
+    GeneraDate:
+      type: object
+      properties:
+        startDate:
+          type: string
+          format: date
+        endDate:
+          type: string
+          format: date
+        noDeadline: 
+          type: boolean
+          default: false    
+
+paths:
+  /coupon/detail:
+    get:
+      summary: get coupon specification detail by id
+      parameters:
+        - name: id
+          in: query
+          schema:
+            type: string
+      responses:
+        '200':
+          description: return a coupon specification detail
+          content:
+            application/json:
+              schema:
+                $ref: '#components/schemas/CouponDetail'
+  /coupon:
+    post:
+      summary: create a new coupon specifications
+      requestBody:
+        content: 
+          application/json:
+            schema:
+              type: object
+              properties:
+                schema:
+                  $ref: '#components/schemas/CouponDetail'
+
+      responses:
+        '200':
+          description: return a object coupon specification detail
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  schema:
+                    $ref: '#components/schemas/CouponDetail'
+  /coupon-issuance/insert/{:id}:
+    post:
+      summary: Coupon issuance inssert
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#components/schemas/CouponIssuanceForm'
+      responses:
+        '200':
+          description: return success message
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success: 
+                    type: boolean
+                    default: true
+                  message:
+                    type: string
+  /randomCode/{:id}:
+   get: 
+    summary: Random code
+    parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+    responses:
+      '200':
+        description: return a foreign key of code table
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                codeId:
+                  type: string
+
+
+  
+
+      
