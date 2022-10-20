@@ -1,0 +1,194 @@
+openapi: 3.0.3
+info:
+  title: Swagger For couponyo 
+  version: 0.0.1
+externalDocs:
+  description: Find out more about Swagger
+  url: http://swagger.io
+
+components:
+  schemas:
+    Member:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        email:
+          type: string
+    Members:
+      type: array
+      items:
+        $ref: '#components/schemas/Member'
+    CouponIssuanceForm:
+      type: object
+      properties:
+        couponName: 
+          type: string
+        typeOfCouponIssuanece:
+          type: string
+          enum:
+            - insert
+            - downloads
+        couponIssuanceMethod:
+          type: string
+          enum:
+            - all
+            - specific
+            - csv
+        couponIssuancePeriod:
+          $ref: '#components/schemas/GeneraDate'
+        issuanceImmediately:
+          type: boolean
+          default: false
+        expriationDate:
+          $ref: '#components/schemas/GeneraDate'
+        nDaysAfterRelease:
+          type: boolean
+        availableUntil:
+          type: number
+        allowMaximumNumberOfIssuance:
+          type: number
+        maximumNumberOfIssuanceDays: 
+          type: number
+        keyword:
+          type: string
+        code:
+          type: string
+          description: an id to get an array of code
+        members:
+          $ref: '#components/schemas/Members'
+        couponDownloadMethod:
+          type: string
+          enum:
+            - download
+            - keyword
+            - random_code
+        typeOfexpriationDate:
+          type: string
+          enum:
+            - form_to
+            - n_days
+        downloadUrl: 
+          type: string
+        slug:
+          type: string
+        
+    GeneraDate:
+      type: object
+      properties:
+        startDate:
+          type: string
+          format: date
+        endDate:
+          type: string
+          format: date
+        noDeadline: 
+          type: boolean
+          default: false    
+
+paths:
+  /members:
+    get:
+      summary: get a list of members
+      parameters:
+        - name: textSeach
+          in: query
+          schema:
+            type: string
+        - name: size
+          in: query
+          schema:
+            type: number
+        - name: page
+          in: query
+          schema:
+            type: number
+      responses:
+        '200':
+          description: return a array of members
+          content:
+            application/json:
+              schema:
+                $ref: '#components/schemas/Members'
+  /members/upload:
+    post:
+      summary: updload csv's members files
+      requestBody:
+        content: 
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                files:
+                  type: array
+                  items:
+                    type: string
+                    format: binary
+
+      responses:
+        '200':
+          description: return a url to download these files and array of members
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  downloadUrls: 
+                    type: array
+                    items:
+                      type: string
+                  members:
+                    $ref: '#components/schemas/Members'
+  /coupon-issuance/insert/{:id}:
+    post:
+      summary: Coupon issuance inssert
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#components/schemas/CouponIssuanceForm'
+      responses:
+        '200':
+          description: return success message
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success: 
+                    type: boolean
+                    default: true
+                  message:
+                    type: string
+  /randomCode/{:id}:
+   get: 
+    summary: Random code
+    parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+    responses:
+      '200':
+        description: return a foreign key of code table
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                codeId:
+                  type: string
+
+
+  
+
+      
