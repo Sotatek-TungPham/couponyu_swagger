@@ -3,9 +3,8 @@ info:
   title: Swagger For couponyo 
   version: 0.0.1
 externalDocs:
-  description: Find out more about Swagger
-  url: http://swagger.io
-
+  description: Find out more about docs in 
+  url: https://docs.google.com/presentation/d/1Wv2elTiVQc1WIGY6uocNR7pcIgLXvbYS/edit#slide=id.g16e7b526ce2_0_125
 components:
   schemas:
     CouponSpecification:
@@ -72,58 +71,65 @@ components:
         items:
           $ref: '#/components/schemas/Member'
     CouponIssuanceForm:
+      description: All field was signed by (number) you can see more information in Couponyo admin v0.1.3 <a href="https://docs.google.com/presentation/d/1Wv2elTiVQc1WIGY6uocNR7pcIgLXvbYS/edit#slide=id.g16b19b4f552_0_503">Slide1</a> <a href="https://docs.google.com/presentation/d/1Wv2elTiVQc1WIGY6uocNR7pcIgLXvbYS/edit#slide=id.g16b19b4f552_0_640">Slide2</a> <a href="https://docs.google.com/presentation/d/1Wv2elTiVQc1WIGY6uocNR7pcIgLXvbYS/edit#slide=id.g16b19b4f552_0_789">Slide3</a> <a href="https://docs.google.com/presentation/d/1Wv2elTiVQc1WIGY6uocNR7pcIgLXvbYS/edit#slide=id.g16e7b526ce2_0_2">Slide4</a> <a href="https://docs.google.com/presentation/d/1Wv2elTiVQc1WIGY6uocNR7pcIgLXvbYS/edit#slide=id.g16e7b526ce2_0_125">Slide5</a>
       type: object
       properties:
         couponName: 
           type: string
+          description: Coupon name (1)
         typeOfCouponIssuanece:
           type: string
           enum:
             - insert
             - downloads
+          description: Issuance type (2)
         couponIssuanceMethod:
+          description: Insert coupon issuance method
           type: string
           enum:
             - all
             - specific
             - csv
         couponIssuancePeriod:
+          description: Issuance period (5)
           $ref: '#/components/schemas/GeneraDate'
         issuanceImmediately:
+          description: Immediate issuance 
           type: boolean
           default: false
         expriationDate:
           $ref: '#/components/schemas/GeneraDate'
+          description: Expiration date consists of start date , expiration date and no limit if nolimit = true expiration date will be infinity
         nDaysAfterRelease:
+          description:  N days after release that is a different way of picking the Expiration date
           type: boolean
         availableUntil:
-          type: number
-        allowMaximumNumberOfIssuance:
+          description: N days after release, available to use until (6)
           type: number
         maximumNumberOfIssuanceDays: 
+          description: Can be issued up to 
           type: number
         keyword:
+          description: 키워드 keyword
           type: string
         code:
           type: string
           description: an id to get an array of code
         members:
+          description: 특정회원 Specific member
           $ref: '#/components/schemas/Members'
         couponDownloadMethod:
           type: string
+          description: 발급방법 Coupon issuance method, it can be 다운로드 템플릿, 키워드 or 난수코드
           enum:
             - download
             - keyword
             - random_code
-        typeOfexpriationDate:
-          type: string
-          enum:
-            - form_to
-            - n_days
         downloadUrl: 
           type: string
         slug:
-          type: string 
+          type: string
+          description: SLUG Synchronize backend operation Yogiyo [Data] (3)
     GeneraDate:
       type: object
       properties:
